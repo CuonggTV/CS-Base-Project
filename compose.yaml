@@ -1,0 +1,6 @@
+﻿services:
+  cs-base-project:
+    image: cs-base-project
+    build:
+      context: .
+      dockerfile: CS-Base-Project/Dockerfile

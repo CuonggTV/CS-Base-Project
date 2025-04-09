@@ -1,6 +1,13 @@
-﻿namespace CS_Base_Project.Controllers;
+﻿using CS_Base_Project.Constants;
+using Microsoft.AspNetCore.Mvc;
 
-public class BaseController
+namespace CS_Base_Project.Controllers;
+
+[Route(APIEndpointsConstant.API_ENDPOINT)]
+[ApiController]
+public class BaseController<T>
+    (ILogger<T> logger)
+    : ControllerBase where T : BaseController<T>
 {
     
 }

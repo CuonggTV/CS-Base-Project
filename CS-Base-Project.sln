@@ -1,6 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS-Base-Project", "CS-Base-Project\CS-Base-Project.csproj", "{D8FDDA1A-A61E-456D-A2CF-2B05B928272A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS-Base-Project.API", "CS-Base-Project.API\CS-Base-Project.API.csproj", "{D8FDDA1A-A61E-456D-A2CF-2B05B928272A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2CC63B67-B0F0-4EEB-BA0B-DD6B725B9512}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CS-Base-Project.DAL", "CS-Base-Project.DAL\CS-Base-Project.DAL.csproj", "{330E334C-2A72-49C1-BE28-16F16671E7F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +19,9 @@ Global
 		{D8FDDA1A-A61E-456D-A2CF-2B05B928272A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8FDDA1A-A61E-456D-A2CF-2B05B928272A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8FDDA1A-A61E-456D-A2CF-2B05B928272A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{330E334C-2A72-49C1-BE28-16F16671E7F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{330E334C-2A72-49C1-BE28-16F16671E7F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{330E334C-2A72-49C1-BE28-16F16671E7F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{330E334C-2A72-49C1-BE28-16F16671E7F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
