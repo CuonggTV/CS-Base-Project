@@ -19,7 +19,15 @@ builder.Services.AddSwaggerGen(options =>
 // Add database context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
-        .UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnectionString"))
+        .UseNpgsql(
+            builder.Configuration.GetConnectionString("PostgresConnectionString"),
+            npgsqlOptions => npgsqlOptions
+                .EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorCodesToAdd: null
+                )
+            ) 
         .LogTo(Console.WriteLine, LogLevel.Information)
     );
 
