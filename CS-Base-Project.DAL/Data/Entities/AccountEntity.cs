@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS_Base_Project.DAL.Data.Entities;
 
-[Table("Account")]
+[Table("account")]
 public class AccountEntity
 {
     [Key]
-    [Column("id",TypeName = "char(100)")]
+    [Column("id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     

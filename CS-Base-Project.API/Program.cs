@@ -1,4 +1,8 @@
+using CS_Base_Project.BLL.Services.Implements;
+using CS_Base_Project.BLL.Services.Interfaces;
 using CS_Base_Project.DAL.Data.Entities;
+using CS_Base_Project.DAL.Data.Repositories;
+using CS_Base_Project.DAL.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -49,6 +53,11 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+
+// Add services to the container.
+builder.Services.AddScoped<IUnitOfWork<AppDbContext>, UnitOfWork<AppDbContext>>();
+
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 

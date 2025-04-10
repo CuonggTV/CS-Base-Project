@@ -26,7 +26,7 @@ namespace CS_Base_Project.DAL.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(100)")
+                        .HasColumnType("uuid")
                         .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
@@ -59,7 +59,7 @@ namespace CS_Base_Project.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Account");
+                    b.ToTable("account");
                 });
 #pragma warning restore 612, 618
         }

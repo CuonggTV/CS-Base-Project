@@ -12,10 +12,10 @@ namespace CS_Base_Project.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Account",
+                name: "account",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "char(100)", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     email = table.Column<string>(type: "varchar(100)", nullable: false),
                     password = table.Column<string>(type: "text", nullable: false),
                     first_name = table.Column<string>(type: "varchar(100)", nullable: false),
@@ -25,7 +25,7 @@ namespace CS_Base_Project.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Account", x => x.id);
+                    table.PrimaryKey("PK_account", x => x.id);
                 });
         }
 
@@ -33,7 +33,7 @@ namespace CS_Base_Project.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Account");
+                name: "account");
         }
     }
 }
