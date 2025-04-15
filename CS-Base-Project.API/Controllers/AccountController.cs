@@ -22,7 +22,7 @@ public class AccountController : BaseController<AccountController>
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_ENDPOINT)]
     public string GetAccount()
     {
-        return "Get Account";
+        throw new NotImplementedException();
     }
     
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_BY_ID_ENDPOINT)]

@@ -3,6 +3,7 @@ using CS_Base_Project.BLL.Services.Interfaces;
 using CS_Base_Project.DAL.Data.Entities;
 using CS_Base_Project.DAL.Data.Repositories;
 using CS_Base_Project.DAL.Data.Repositories.Interfaces;
+using CS_Base_Project.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -67,6 +68,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
