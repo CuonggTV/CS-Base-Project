@@ -1,5 +1,6 @@
 ﻿using CS_Base_Project.BLL.Services.Interfaces;
 using CS_Base_Project.Constants;
+using CS_Base_Project.DAL.Data.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CS_Base_Project.Controllers;
@@ -22,7 +23,7 @@ public class AccountController : BaseController<AccountController>
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_ENDPOINT)]
     public string GetAccount()
     {
-        throw new NotImplementedException();
+        throw new NotFoundException("Account not found");
     }
     
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_BY_ID_ENDPOINT)]

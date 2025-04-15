@@ -28,7 +28,7 @@ public class ExceptionHandlerMiddleware(
         var (statusCode, message, reason) = exception switch
         {
             ApiException apiEx =>
-                ((int)apiEx.StatusCode, GetExceptionMessage(apiEx), apiEx.Message),
+                ((int)apiEx.StatusCode, apiEx.ExceptionMessage, apiEx.Message),
 
             InvalidOperationException =>
                 (StatusCodes.Status400BadRequest, "Invalid Operation", exception.Message),
@@ -55,17 +55,6 @@ public class ExceptionHandlerMiddleware(
         
         await context.Response.WriteAsJsonAsync(errorResponse);
     }
-    
-    private string GetExceptionMessage(ApiException exception) => exception switch
-    {
-        ValidationException => "Validation Error",
-        NotFoundException => "Resource Not Found",
-        BusinessException => "Business Rule Violation",
-        BadRequestException => "Bad Request",
-        UnauthorizedException => "Unauthorized Access",
-        ForbiddenException => "Forbidden",
-        _ => "API Error"
-    };
     
     private void LogError(string errorId, string timeStamp, HttpContext context, Exception exception)
     {
