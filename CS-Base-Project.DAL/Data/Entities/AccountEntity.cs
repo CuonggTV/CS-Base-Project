@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS_Base_Project.DAL.Data.Entities;
 
+public enum AccountRole
+{
+    User, Admin
+}
+
 [Table("account")]
 public class AccountEntity
 {
@@ -18,6 +23,10 @@ public class AccountEntity
     [Required]
     [Column("password")]
     public string Password { get; set; }
+    
+    [Required]
+    [Column("role")]
+    public AccountRole Role { get; set; }
     
     [Required]
     [Column("first_name", TypeName = "varchar(100)")]
