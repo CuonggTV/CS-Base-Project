@@ -19,6 +19,6 @@ public class AccountControllerTests
 
         // Act & Assert
         var ex = Assert.Throws<NotFoundException>(() => controller.GetAccount());
-        Assert.Equal("Account not found", ex.Message);
+        Assert.Equal("Account not found!", ex.Message);
     }
 }

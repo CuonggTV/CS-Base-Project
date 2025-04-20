@@ -25,7 +25,7 @@ public class AccountController : BaseController<AccountController>
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_ENDPOINT)]
     public string GetAccount()
     {
-        throw new NotFoundException("Account not found");
+        throw new NotFoundException("Account not found!");
     }
     
     [Authorize(Roles = $"{RoleEntity.Admin}, {RoleEntity.User}")]
