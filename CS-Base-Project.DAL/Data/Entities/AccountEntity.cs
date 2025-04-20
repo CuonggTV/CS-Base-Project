@@ -3,12 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CS_Base_Project.DAL.Data.Entities;
 
-public enum AccountRole
-{
-    User, Admin
-}
 
-[Table("account")]
+[Table("accounts")]
 public class AccountEntity
 {
     [Key]
@@ -24,9 +20,11 @@ public class AccountEntity
     [Column("password")]
     public string Password { get; set; }
     
-    [Required]
-    [Column("role")]
-    public AccountRole Role { get; set; }
+    
+    [ForeignKey(nameof(RoleEntity))]
+    [Column("role_id")]
+    public int RoleId { get; set; }
+    public RoleEntity RoleEntity { get; set; }
     
     [Required]
     [Column("first_name", TypeName = "varchar(100)")]
@@ -42,4 +40,5 @@ public class AccountEntity
     
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
+    
 }

@@ -53,9 +53,9 @@ namespace CS_Base_Project.DAL.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password");
 
-                    b.Property<int>("Role")
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer")
-                        .HasColumnName("role");
+                        .HasColumnName("role_id");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -63,7 +63,52 @@ namespace CS_Base_Project.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("account");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("accounts");
+                });
+
+            modelBuilder.Entity("CS_Base_Project.DAL.Data.Entities.RoleEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
+                });
+
+            modelBuilder.Entity("CS_Base_Project.DAL.Data.Entities.AccountEntity", b =>
+                {
+                    b.HasOne("CS_Base_Project.DAL.Data.Entities.RoleEntity", "RoleEntity")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoleEntity");
                 });
 #pragma warning restore 612, 618
         }
