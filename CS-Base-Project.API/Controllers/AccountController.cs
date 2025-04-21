@@ -1,4 +1,5 @@
-﻿using CS_Base_Project.BLL.Services.Interfaces;
+﻿using CS_Base_Project.ActionFilters;
+using CS_Base_Project.BLL.Services.Interfaces;
 using CS_Base_Project.Constants;
 using CS_Base_Project.DAL.Data.Entities;
 using CS_Base_Project.DAL.Data.Exceptions;
@@ -48,6 +49,7 @@ public class AccountController : BaseController<AccountController>
     #region Post Method
     
     [HttpPost(APIEndpointsConstant.AccountEndpoints.CREATE_ACCOUNT_ENDPOINT)]
+    [ValidAttributeActionFilter]
     public async Task<IActionResult> CreateAccount([FromBody] CreateAccountRequestDTO requestDto)
     {
         return Ok(ApiResponseBuilder.BuildResponse(
@@ -63,6 +65,7 @@ public class AccountController : BaseController<AccountController>
     
     #region Put Method
     [HttpPut(APIEndpointsConstant.AccountEndpoints.UPDATE_ACCOUNT_ENDPOINT)]
+    [ValidAttributeActionFilter]
     public async Task<IActionResult> UpdateAccount(
         [FromRoute] Guid id,
         [FromBody] UpdateAccountRequestDTO account)

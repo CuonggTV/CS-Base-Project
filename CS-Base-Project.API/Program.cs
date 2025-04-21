@@ -9,13 +9,17 @@ using CS_Base_Project.DAL.Data.Repositories.Interfaces;
 using CS_Base_Project.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
-// Add services to the container.
+
+builder.Services.AddControllers();
+
+#region Implement Swagger
 builder.Services.AddEndpointsApiExplorer(); // Required for Swagger UI
 builder.Services.AddSwaggerGen(options =>
 {
@@ -51,7 +55,12 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Add database context
+
+
+#endregion
+
+#region Add database context
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
         .UseNpgsql(
@@ -62,9 +71,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                     maxRetryDelay: TimeSpan.FromSeconds(30),
                     errorCodesToAdd: null
                 )
-            ) 
+        ) 
         .LogTo(Console.WriteLine, LogLevel.Information)
-    );
+);
+
+
+#endregion
+
+#region Implement Authentication and Authorization
 
 // Add Authentication and Authorization using JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -95,15 +109,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Add AutoMapper
-// Scan the whole assembly for profiles
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Add Roles for Authorization
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("RequireAdminRole", policy => policy.RequireRole(RoleEntity.Admin))
+    .AddPolicy("RequireUserRole", policy => policy.RequireRole(RoleEntity.User));
 
-builder.Services.AddLogging(loggingBuilder =>
-{
-    loggingBuilder.AddConsole();
-    loggingBuilder.AddDebug();
-});
+#endregion
+
+#region Implement CORS
 
 builder.Services.AddCors(options =>
 {
@@ -116,9 +129,10 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddControllers();
+#endregion
 
-// Add services to the container.
+# region Implement DI for Project Services
+
 builder.Services.AddScoped<IUnitOfWork<AppDbContext>, UnitOfWork<AppDbContext>>();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
@@ -126,10 +140,32 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<TokenHelper>();
 
-// Add Roles
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy("RequireAdminRole", policy => policy.RequireRole(RoleEntity.Admin))
-    .AddPolicy("RequireUserRole", policy => policy.RequireRole(RoleEntity.User));
+#endregion
+
+#region Other services
+
+// Add AutoMapper
+// Scan the whole assembly for profiles
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddDebug();
+});
+
+#endregion
+
+#region Configure API behavior
+
+// Disable automatic model state validation
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
+#endregion
+
 
 var app = builder.Build();
 
