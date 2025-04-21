@@ -1,12 +1,14 @@
 ﻿using CS_Base_Project.DAL.Data.Entities;
+using CS_Base_Project.DAL.Data.RequestDTO.Accounts;
+using CS_Base_Project.DAL.Data.ResponseDTO.Accounts;
 
 namespace CS_Base_Project.BLL.Services.Interfaces;
 
 public interface IAccountService
 {
     Task<AccountEntity> GetAccount();
-    Task<AccountEntity> GetAccountById(Guid id);
-    Task<AccountEntity> CreateAccount(AccountEntity account);
-    Task<AccountEntity> UpdateAccount(AccountEntity account);
-    Task<bool> DeleteAccount(int id);
+    Task<GetAccountResponseDTO> GetAccountById(Guid id);
+    Task<GetAccountResponseDTO> CreateAccount(CreateAccountRequestDTO requestDto);
+    Task<GetAccountResponseDTO> UpdateAccount(Guid id, UpdateAccountRequestDTO requestDto);
+    Task<bool> DeleteAccount(Guid id);
 }

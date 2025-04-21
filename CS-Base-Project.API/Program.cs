@@ -95,6 +95,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Add AutoMapper
+// Scan the whole assembly for profiles
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddLogging(loggingBuilder =>
 {
