@@ -24,6 +24,15 @@ public class AccountService(
         throw new NotImplementedException();
     }
 
+    public async Task<ICollection<GetAccountResponseDTO>> GetManyAccounts(int pageNumber, int pageSize)
+    {
+        var accounts = await _unitOfWork.GetRepository<AccountEntity>().GetPagingListAsync(
+            pageIndex: pageNumber,
+            pageSize: pageSize);
+
+        return accounts.Items.Select(mapper.Map<AccountEntity, GetAccountResponseDTO>).ToList();
+    }
+
     public async Task<GetAccountResponseDTO> GetAccountById(Guid id)
     {
         try

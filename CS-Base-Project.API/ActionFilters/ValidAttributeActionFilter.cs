@@ -28,7 +28,7 @@ public class ValidAttributeActionFilter : ActionFilterAttribute
                 else if (error.Exception != null)
                 {
                     // Check for specific exceptions related to invalid data types
-                    if (error.Exception is FormatException || error.Exception is InvalidCastException)
+                    if (error.Exception is FormatException or InvalidCastException)
                     {
                         string propertyName = key.Split('.').Last();
                         errorMessages.Add($"The {propertyName} field has an invalid value type.");

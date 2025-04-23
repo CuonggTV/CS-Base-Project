@@ -7,6 +7,7 @@ namespace CS_Base_Project.BLL.Services.Interfaces;
 public interface IAccountService
 {
     Task<AccountEntity> GetAccount();
+    Task<ICollection<GetAccountResponseDTO>> GetManyAccounts(int pageNumber, int pageSize);
     Task<GetAccountResponseDTO> GetAccountById(Guid id);
     Task<GetAccountResponseDTO> CreateAccount(CreateAccountRequestDTO requestDto);
     Task<GetAccountResponseDTO> UpdateAccount(Guid id, UpdateAccountRequestDTO requestDto);

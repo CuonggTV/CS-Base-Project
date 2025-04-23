@@ -26,10 +26,19 @@ public class AccountController : BaseController<AccountController>
     #endregion
 
     #region Get Method
-    [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_ENDPOINT)]
-    public string GetAccount()
+    [Authorize(Roles = $"{RoleEntity.Admin}, {RoleEntity.User}")]
+    [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_MANY_ACCOUNTS_ENDPOINT)]
+    public async Task<IActionResult> GetMany(
+        [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10
+        )
     {
-        throw new NotFoundException("Account not found");
+        return Ok(ApiResponseBuilder.BuildResponse(
+                statusCode: StatusCodes.Status201Created,
+                isSuccess: true,
+                message: "Get many accounts successfully",
+                data:  await _accountService.GetManyAccounts(pageSize: pageSize, pageNumber: pageNumber)
+            )
+        );
     }
     
     [Authorize(Roles = $"{RoleEntity.Admin}, {RoleEntity.User}")]

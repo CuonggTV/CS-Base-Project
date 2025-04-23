@@ -98,6 +98,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         if(predicate != null) query = query.Where(predicate);
         if(include != null) query = include(query);
         if(orderBy != null) query = orderBy(query);
+        query.AsNoTracking();
         
         return await query.ToPagingResponseAsync(pageIndex, pageSize, firstPage);
     }
