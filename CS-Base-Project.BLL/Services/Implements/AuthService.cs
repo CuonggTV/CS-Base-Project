@@ -6,6 +6,7 @@ using CS_Base_Project.BLL.Services.Interfaces;
 using CS_Base_Project.DAL.Data.Entities;
 using CS_Base_Project.DAL.Data.Repositories.Interfaces;
 using CS_Base_Project.DAL.Data.RequestDto.Auth;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace CS_Base_Project.BLL.Services.Implements;
 
 public class AuthService
-    (IUnitOfWork<AppDbContext> unitOfWork, ILogger<AuthService> logger, TokenHelper tokenHelper)
+    (IUnitOfWork<AppDbContext> unitOfWork, ILogger<AuthService> logger,  TokenHelper tokenHelper)
     : BaseService<AuthService>(unitOfWork, logger), IAuthService
 {
     private readonly PasswordHasher<object> _passwordHasher = new();

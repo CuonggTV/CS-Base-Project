@@ -26,6 +26,25 @@ public class AccountController : BaseController<AccountController>
     #endregion
 
     #region Get Method
+    [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_ACCOUNT_ENDPOINT)]
+    public string GetAccount()
+    {
+        throw new NotFoundException("Account not found");
+    }
+    
+    [Authorize]
+    [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_CURRENT_ACCOUNT_ENDPOINT)]
+    public async Task<IActionResult> GetCurrent()
+    {
+        return Ok(ApiResponseBuilder.BuildResponse(
+                statusCode: StatusCodes.Status201Created,
+                isSuccess: true,
+                message: "Get current account successfully",
+                data:  await _accountService.GetCurrentAccount()
+            )
+        );
+    }
+    
     [Authorize(Roles = $"{RoleEntity.Admin}, {RoleEntity.User}")]
     [HttpGet(APIEndpointsConstant.AccountEndpoints.GET_MANY_ACCOUNTS_ENDPOINT)]
     public async Task<IActionResult> GetMany(

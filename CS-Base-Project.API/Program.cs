@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 
 #region Implement Swagger

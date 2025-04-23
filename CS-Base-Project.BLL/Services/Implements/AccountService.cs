@@ -5,6 +5,7 @@ using CS_Base_Project.DAL.Data.Exceptions;
 using CS_Base_Project.DAL.Data.Repositories.Interfaces;
 using CS_Base_Project.DAL.Data.RequestDTO.Accounts;
 using CS_Base_Project.DAL.Data.ResponseDTO.Accounts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,8 +15,9 @@ namespace CS_Base_Project.BLL.Services.Implements;
 public class AccountService(
     IUnitOfWork<AppDbContext> unitOfWork, 
     ILogger<AccountEntity> logger,
+    IHttpContextAccessor? httpContextAccessor,
     IMapper mapper)
-    : BaseService<AccountEntity>(unitOfWork, logger), IAccountService
+    : BaseService<AccountEntity>(unitOfWork, logger, httpContextAccessor), IAccountService
 {
     private readonly PasswordHasher<object> _passwordHasher = new();
     
@@ -24,9 +26,14 @@ public class AccountService(
         throw new NotImplementedException();
     }
 
+    public async Task<GetAccountResponseDTO> GetCurrentAccount()
+    {
+        return await GetAccountById(GetCurrentAccountIdThroughToken());
+    }
+
     public async Task<ICollection<GetAccountResponseDTO>> GetManyAccounts(int pageNumber, int pageSize)
     {
-        var accounts = await _unitOfWork.GetRepository<AccountEntity>().GetPagingListAsync(
+        var accounts = await unitOfWork.GetRepository<AccountEntity>().GetPagingListAsync(
             pageIndex: pageNumber,
             pageSize: pageSize);
 
@@ -37,14 +44,14 @@ public class AccountService(
     {
         try
         {
-            var account = await _unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
+            var account = await unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
                 predicate: a => a.Id == id,
                 include: a => a.Include(a => a.RoleEntity));
             return mapper.Map<AccountEntity, GetAccountResponseDTO>(account);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting claim: {Message}", ex.Message);
+            logger.LogError(ex, "Error getting claim: {Message}", ex.Message);
             throw;
         }
     }
@@ -52,10 +59,10 @@ public class AccountService(
     public async Task<GetAccountResponseDTO> CreateAccount(CreateAccountRequestDTO requestDto)
     {
         var account = mapper.Map<CreateAccountRequestDTO, AccountEntity>(requestDto);
-        await _unitOfWork.ExecuteInTransactionAsync(async () =>
+        await unitOfWork.ExecuteInTransactionAsync(async () =>
         {
             // Check if Role exists
-            var findRoleResult = await _unitOfWork.GetRepository<RoleEntity>().FirstOrDefaultAsync(
+            var findRoleResult = await unitOfWork.GetRepository<RoleEntity>().FirstOrDefaultAsync(
                 predicate: r => r.Name == requestDto.Role);
             if (findRoleResult == null) throw new NotFoundException("Role not found!");
             account.RoleEntity = findRoleResult;
@@ -65,7 +72,7 @@ public class AccountService(
             account.Password = hashedPassword;
             
             // Add Account
-            await _unitOfWork.GetRepository<AccountEntity>().InsertAsync(account);
+            await unitOfWork.GetRepository<AccountEntity>().InsertAsync(account);
             
         });
         return mapper.Map<AccountEntity, GetAccountResponseDTO>(account);;
@@ -74,19 +81,19 @@ public class AccountService(
     public async Task<GetAccountResponseDTO> UpdateAccount(Guid id, UpdateAccountRequestDTO requestDto)
     {
         // Check if Account exists
-        var account = await _unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
+        var account = await unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
             predicate: a => a.Id == id,
             include: a => a.Include(a => a.RoleEntity));
         if (account == null) throw new NotFoundException("Account not found!");
         
         // Update Account
-        await _unitOfWork.ExecuteInTransactionAsync(async () =>
+        await unitOfWork.ExecuteInTransactionAsync(async () =>
         {
             // Map UpdateAccountRequestDTO to AccountEntity
             mapper.Map(requestDto, account);
             
             // Update
-            _unitOfWork.GetRepository<AccountEntity>().UpdateAsync(account);
+            unitOfWork.GetRepository<AccountEntity>().UpdateAsync(account);
             
         });
         return mapper.Map<AccountEntity, GetAccountResponseDTO>(account);
@@ -94,15 +101,15 @@ public class AccountService(
 
     public async Task<bool> DeleteAccount(Guid id)
     {
-        var account = await _unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
+        var account = await unitOfWork.GetRepository<AccountEntity>().FirstOrDefaultAsync(
             predicate: a => a.Id == id,
             include: a => a.Include(a => a.RoleEntity));
         if (account == null) throw new NotFoundException("Account not found!");
         
         // Delete Account
-        await _unitOfWork.ExecuteInTransactionAsync(async () =>
+        await unitOfWork.ExecuteInTransactionAsync(async () =>
         {
-            _unitOfWork.GetRepository<AccountEntity>().Delete(account);
+           unitOfWork.GetRepository<AccountEntity>().Delete(account);
             
         });
         return true;

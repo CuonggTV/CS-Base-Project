@@ -16,6 +16,7 @@ public class APIEndpointsConstant
     {
         public const string ACCOUNT_ENDPOINT = API_ENDPOINT + "/account";
         public const string GET_ACCOUNT_ENDPOINT = ACCOUNT_ENDPOINT;
+        public const string GET_CURRENT_ACCOUNT_ENDPOINT = ACCOUNT_ENDPOINT + "/current";
         public const string GET_MANY_ACCOUNTS_ENDPOINT = ACCOUNT_ENDPOINT + "/many";
         public const string GET_ACCOUNT_BY_ID_ENDPOINT = ACCOUNT_ENDPOINT + "/{id}";
         public const string CREATE_ACCOUNT_ENDPOINT = ACCOUNT_ENDPOINT;
