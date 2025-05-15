@@ -12,12 +12,11 @@ This is the repository where I can learn how to design a base project for my fut
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## 🚀 Features
 
-- Feature 1 (e.g., RESTful API)
-- Feature 2 (e.g., JWT Authentication)
-- Feature 3 (e.g., Swagger Documentation)
+- Log in.
+- CRUD an Account.
+- View roles.
 
 ## 🛠️ Tech Stack
 
@@ -41,5 +40,26 @@ This is the repository where I can learn how to design a base project for my fut
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
 ```
+### Before running
+ - Make sure to create a database on your PostgreSQL database.
+ - Change your database connection string in appsettings.json.
 
-## Workflow
+### Run
+ - For simplification, run this project on your favorite IDE.
+
+## 🔀 Workflow
+ 
+ - This is the workflow for creating an Account.
+<img src="README-images/SequenceDiagram.png" alt="SequenceDiagram">
+
+## 📁 Project Structures
+
+This project uses a three-layer architecture: 
+ - API: this layer registers controllers, and applies basic configuration for the app.
+ - BLL: this layer is responsible for the logic of an app.
+ - DAL: this layer contains class data and handles the interaction with the database.
+
+Design Patterns applied: 
+ - Repository Pattern.
+ - Generic Repository Pattern.
+ - Unit of Work Pattern.
