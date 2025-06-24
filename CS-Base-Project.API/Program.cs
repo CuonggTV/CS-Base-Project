@@ -7,6 +7,7 @@ using CS_Base_Project.DAL.Data.Exceptions;
 using CS_Base_Project.DAL.Data.Repositories;
 using CS_Base_Project.DAL.Data.Repositories.Interfaces;
 using CS_Base_Project.Middlewares;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -173,6 +174,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Env.Load();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
